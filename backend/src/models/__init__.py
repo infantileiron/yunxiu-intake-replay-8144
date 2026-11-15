@@ -3,6 +3,7 @@ from .dataset import ArrivalDataset
 from .profile import ServiceProfile
 from .scenario import CapacityScenario
 from .run import SimulationRun
+from .replay import ReplayPlan,ReplayRun
 from .review import CapacityReview
 from .report import Report
 from .audit import AuditEvent

@@ -3,6 +3,7 @@ from typing import Literal
 class Observation(BaseModel):
  sample_id:str=Field(min_length=1,max_length=50)
  period:Literal["peak","offpeak"]
+ category:str=Field(default="常规",min_length=1,max_length=30)
  interarrival_minutes:float=Field(gt=0,le=120,allow_inf_nan=False)
  service_minutes:float=Field(gt=0,le=180,allow_inf_nan=False)
 class DatasetInput(BaseModel):

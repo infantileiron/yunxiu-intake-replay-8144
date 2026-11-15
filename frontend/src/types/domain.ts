@@ -1,5 +1,5 @@
 export interface User{email:string;role:string}
-export interface Observation{sample_id:string;period:string;interarrival_minutes:number;service_minutes:number}
+export interface Observation{sample_id:string;period:string;category?:string;interarrival_minutes:number;service_minutes:number}
 export interface Dataset{id:string;name:string;source:string;rows:Observation[];created_at:string}
 export interface Profile{id:string;name:string;dataset_id:string;period:string;arrival_rate:number;service_rate:number;statistics:{n:number;mean_interarrival:number;mean_service:number;interarrival_cv:number;service_cv:number;checksum:string};created_at:string}
 export interface Scenario{id:string;name:string;profile_id:string;windows:number;arrival_multiplier:number;service_multiplier:number;duration_minutes:number;warmup_minutes:number;replications:number;seed:number;created_at:string}
@@ -8,6 +8,13 @@ export interface Replication{replication:number;arrivals:number;mean_wait_minute
 export interface Event{job:number;arrival:number;service:number;start:number;end:number;wait:number;server:number}
 export interface Result{analytic:Analytic;simulation:{mean_wait_minutes:number;mean_wait_ci95:[number,number];p_wait:number;busy_fraction:number;replications:Replication[];timeline:Event[];duration_minutes:number;warmup_minutes:number;seed:number;ci_method:string};comparison:Analytic[];profile_statistics:Profile['statistics'];assumptions:string[]}
 export interface Run{id:string;scenario_id:string;status:string;result:Result;error:string;created_at:string}
+export interface WindowCapability{window:number;categories:string[]}
+export interface ReplayPlan{id:string;name:string;dataset_id:string;windows:WindowCapability[];created_at:string}
+export interface ReplaySample{seq:number;sample_id:string;category:string;arrival:number;wait:number|null;start:number|null;end:number|null;window:number|null;status:string;reason:string|null}
+export interface ReplayCategory{category:string;arrived:number;served:number;unhandled:number;mean_wait_minutes:number|null;max_wait_minutes:number|null}
+export interface ReplayResult{summary:{total:number;served:number;unhandled:number;mean_wait_minutes:number|null;max_wait_minutes:number|null;last_arrival_minutes:number;makespan_minutes:number;windows:number};categories:ReplayCategory[];samples:ReplaySample[];notes:string[]}
+export interface ReplaySnapshot{dataset_id:string;dataset_name:string;plan_name:string;samples:Observation[];windows:WindowCapability[]}
+export interface ReplayRun{id:string;plan_id:string;status:string;snapshot:ReplaySnapshot;result:ReplayResult;error:string;created_at:string}
 export interface Review{id:string;run_id:string;note:string;decision:string;author:string;created_at:string}
 export interface Report{id:string;run_id:string;title:string;published_by:string;created_at:string}
 export interface Audit{id:string;actor:string;action:string;status:number;created_at:string}
